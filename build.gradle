@@ -45,7 +45,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath "io.fabric.tools:gradle:1.+"
     }
 }
@@ -68,11 +68,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 
-apply plugin: 'checkstyle'
+//apply plugin: 'checkstyle'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
 
     useLibrary 'org.apache.http.legacy'
 
@@ -265,22 +264,22 @@ def loadPropertiesFile(String name) {
     return props
 }
 
-checkstyle {
-    configFile project.file('checkstyle.xml')
-    showViolations true
-}
-
-task checkstyle(type: Checkstyle) {
-    exclude 'src'
-    //include '**/*.java'
-    exclude '**/gen/**'
-    exclude '**/R.java'
-    exclude '**/BuildConfig.java'
-
-    configFile project.file('checkstyle.xml')
-
-    // empty classpath
-    classpath = files()
-}
-
-preBuild.dependsOn('checkstyle')
+//checkstyle {
+//    configFile project.file('checkstyle.xml')
+//    showViolations true
+//}
+//
+//task checkstyle(type: Checkstyle) {
+//    exclude 'src'
+//    //include '**/*.java'
+//    exclude '**/gen/**'
+//    exclude '**/R.java'
+//    exclude '**/BuildConfig.java'
+//
+//    configFile project.file('checkstyle.xml')
+//
+//    // empty classpath
+//    classpath = files()
+//}
+//
+//preBuild.dependsOn('checkstyle')
