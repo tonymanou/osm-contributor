@@ -29,6 +29,7 @@ import io.jawg.osmcontributor.flickr.oauth.NoSSLv3SocketFactory;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
@@ -43,7 +44,9 @@ public class FlickrUploadUtils {
                 adapter = new Retrofit.Builder()
                         .addConverterFactory(ScalarsConverterFactory.create())
                         .baseUrl("https://up.flickr.com/services/")
-                        .client(new okhttp3.OkHttpClient().newBuilder().sslSocketFactory(NoSSLv3Factory).addInterceptor(new Interceptor() {
+                        .client(new okhttp3.OkHttpClient.Builder()
+                                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
+                                .sslSocketFactory(NoSSLv3Factory).addInterceptor(new Interceptor() {
                             @Override
                             public Response intercept(Chain chain) throws IOException {
                                 Request request = chain.request();

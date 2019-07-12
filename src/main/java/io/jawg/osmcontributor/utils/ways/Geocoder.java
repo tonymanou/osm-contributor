@@ -35,6 +35,7 @@ import io.jawg.osmcontributor.ui.utils.views.EventCountDownTimer;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
 @Singleton
@@ -44,7 +45,10 @@ public class Geocoder {
 
     public static final String URL = "http://nominatim.openstreetmap.org/reverse?format=json&lat=%s&lon=%s&zoom=18&addressdetails=1";
 
-    private OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client = new OkHttpClient()
+            .newBuilder()
+            .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
+            .build();
 
     private EventCountDownTimer timer;
 

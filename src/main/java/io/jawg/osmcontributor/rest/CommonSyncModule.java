@@ -33,6 +33,7 @@ import dagger.Provides;
 import io.jawg.osmcontributor.rest.mappers.JodaTimeDateTimeTransform;
 import io.jawg.osmcontributor.rest.utils.AuthenticationRequestInterceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 
 @Module
@@ -41,8 +42,9 @@ public class CommonSyncModule {
 
     @Provides
     OkHttpClient getOkHttpClient(AuthenticationRequestInterceptor interceptor) {
-        return new OkHttpClient().newBuilder()
+        return new OkHttpClient.Builder()
                 .authenticator(interceptor)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
                 .addInterceptor(new StethoInterceptor())
                 .build();
     }

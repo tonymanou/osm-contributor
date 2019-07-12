@@ -29,6 +29,9 @@ import io.jawg.osmcontributor.utils.ConfigManager;
 import java.util.Map;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -77,7 +80,9 @@ public class FlickrOAuth {
     /*=========================================*/
   public FlickrOAuth() {
     // Init Flickr retrofit client
-    Retrofit adapter = new Retrofit.Builder().addConverterFactory(ScalarsConverterFactory.create()).baseUrl(OAUTH_URL).build();
+    Retrofit adapter = new Retrofit.Builder()
+            .client(new OkHttpClient.Builder().addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS)).build())
+            .addConverterFactory(ScalarsConverterFactory.create()).baseUrl(OAUTH_URL).build();
     flickrOauthClient = adapter.create(FlickrOauthClient.class);
   }
 

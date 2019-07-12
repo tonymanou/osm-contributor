@@ -56,6 +56,7 @@ import io.jawg.osmcontributor.ui.activities.AuthorisationInterceptor;
 import io.jawg.osmcontributor.ui.managers.PoiManager;
 import io.jawg.osmcontributor.utils.ConfigManager;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
@@ -109,6 +110,7 @@ public class SyncModule {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor).readTimeout(50, TimeUnit.SECONDS)
                 .addInterceptor(interceptor).connectTimeout(50, TimeUnit.SECONDS)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
 
